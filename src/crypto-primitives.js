@@ -16,17 +16,32 @@ export class SecureRandom {
    * Generate cryptographically secure random bytes
    */
   static getRandomBytes(length) {
-    if (typeof window !== 'undefined' && window.crypto) {
-      // Browser environment
+    const globalCrypto = typeof globalThis !== 'undefined' ? globalThis.crypto : undefined;
+
+    if (globalCrypto && typeof globalCrypto.getRandomValues === 'function') {
       const buffer = new Uint8Array(length);
-      window.crypto.getRandomValues(buffer);
+      globalCrypto.getRandomValues(buffer);
       return buffer;
-    } else if (typeof global !== 'undefined' && global.crypto) {
-      // Node.js environment
-      return global.crypto.randomBytes(length);
-    } else {
-      throw new Error('Secure random number generator not available');
     }
+
+    if (globalCrypto && typeof globalCrypto.randomBytes === 'function') {
+      const bytes = globalCrypto.randomBytes(length);
+      return bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+    }
+
+    try {
+      const req = Function('return typeof require !== "undefined" ? require : null;')();
+      if (req) {
+        const cryptoModule = req('crypto');
+        if (cryptoModule?.randomBytes) {
+          return new Uint8Array(cryptoModule.randomBytes(length));
+        }
+      }
+    } catch (error) {
+      // ignore and fall through to error below
+    }
+
+      throw new Error('Secure random number generator not available');
   }
 
   /**
@@ -50,16 +65,28 @@ export class SecureRandom {
    * Convert bytes to base64
    */
   static bytesToBase64(bytes) {
+    if (typeof btoa === 'function') {
     const binary = String.fromCharCode(...bytes);
     return btoa(binary);
+    }
+    if (typeof Buffer !== 'undefined') {
+      return Buffer.from(bytes).toString('base64');
+    }
+    throw new Error('Base64 encoding not supported in this environment');
   }
 
   /**
    * Convert base64 to bytes
    */
   static base64ToBytes(base64) {
+    if (typeof atob === 'function') {
     const binary = atob(base64);
     return new Uint8Array([...binary].map(char => char.charCodeAt(0)));
+    }
+    if (typeof Buffer !== 'undefined') {
+      return new Uint8Array(Buffer.from(base64, 'base64'));
+    }
+    throw new Error('Base64 decoding not supported in this environment');
   }
 }
 

@@ -647,19 +647,12 @@ While GhostSecurity implements military-grade encryption, security also depends 
 
 ## 📞 Support
 
-- 📧 Email: security@ghostkey.io
-- 💬 Discord: [Join our community](https://discord.gg/ghostkey)
-- 🐛 Issues: [GitHub Issues](https://github.com/ghostkey/ghostsecurity/issues)
-- 📖 Docs: [Full Documentation](https://ghostsecurity.io/docs)
+- 📧 Email: manaschoksiwork@gmail.com
 
 ## 🔗 Links
 
 - [NPM Package](https://www.npmjs.com/package/ghostsecurity)
-- [GitHub Repository](https://github.com/ghostkey/ghostsecurity)
-- [Documentation](https://ghostsecurity.io/docs)
-- [Security Audit](https://ghostsecurity.io/audit)
-- [API Reference](https://ghostsecurity.io/api)
-
+- [GitHub Repository](https://github.com/choksi2212/ghost-securityjs)
 ---
 
 Made with ❤️ and 🔐 by the Ghost Key Team

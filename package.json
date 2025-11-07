@@ -1,5 +1,5 @@
 {
-  "name": "@ghostkey/security",
+  "name": "ghostsecurity",
   "version": "1.0.0",
   "description": "Military-grade encryption library for biometric data protection with multi-layer security",
   "main": "src/ghostsecurity.js",
